@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  
+  redis:
+    external:
+      name: redis
+  
+  prometheus:
+    external:
+      name: prometheus
+
+services:
+  redis-exporter:
+    image: oliver006/redis_exporter
+    container_name: redis-exporter
+    restart: unless-stopped
+    networks:
+      - redis
+      - prometheus
+    ports:
+      - 9121:9121
+    environment:
+      REDIS_ADDR: 'redis:6379'
+      REDIS_PASSWORD: null
+      REDIS_USER: null
